@@ -1,0 +1,70 @@
+/* .rating__main{
+    text-align: left;
+}
+.product_user{
+}
+.shopee-product-rating__avatar {
+    width: 2.5rem;
+    margin-right: 0.625rem;
+    text-align: center;
+}
+.product-rating{
+   padding: 0;
+}
+.rating_content{
+} */
+.container_rate {
+    margin-top: 4rem;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    font-size: 12px;
+  }
+  
+  .nav-tabs {
+    background-color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .nav-item.nav-link {
+    color: #000000;
+  }
+  
+  .product_user {
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    
+  }
+  
+  .product-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  
+  .rating__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+  }
+  
+  .rating_content {
+    margin-bottom: 1rem;
+  }
+  
+  .rating {
+    margin-bottom: 1rem;
+  }
+  
+  .nav-tabs p {
+    margin-bottom: 0;
+  }
+  .review-form {
+    display: none;
+}
+  

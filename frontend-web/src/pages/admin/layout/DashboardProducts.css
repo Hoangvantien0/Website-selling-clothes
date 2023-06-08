@@ -1,0 +1,12 @@
+.dashboard-product-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.table11{
+    padding: 0% 0% 0%;
+}
+.button_delete{
+    border-radius: 0;
+    border: none;
+}

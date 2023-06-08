@@ -1,0 +1,23 @@
+
+.product-preview-img:hover{
+    object-fit: cover;
+    height: 200px;
+    filter: drop-shadow(0 0 2px rgb(172, 172, 186));
+    display: block;
+    
+}
+
+
+.product_name{
+    font-size: 17px;
+    -webkit-line-clamp:1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; 
+
+}
+.product_price{
+   color: red;
+   letter-spacing: 1px;
+   padding: 10px;
+}

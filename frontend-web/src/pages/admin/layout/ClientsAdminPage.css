@@ -1,0 +1,22 @@
+
+.button_edit{
+  border-radius: 0;
+}
+.button_a{
+  background-color: #1ca565;
+  margin-left: 60%;
+  border-radius: 0;
+  width: 20%;
+  border: none;
+}
+.button_a1{
+  background-color: #1ca565;
+  margin-left: 80% !important;
+  margin-top: 1% !important;
+  border-radius: 0;
+  border: none;
+  width: 20%;
+}
+.button_b{
+  width:20% ;
+}

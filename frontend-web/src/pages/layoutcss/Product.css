@@ -1,0 +1,23 @@
+.current{
+    color: #1e647d;
+    width: fit-content;
+    display: block;
+    text-align: center;
+    width: 100%;
+
+    color: bisque;
+}
+
+.category-banner-container {
+    height: 50px;
+    /* background-color: #f4f7f8; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+}
+
+.text-muted{
+    margin-bottom: unset;
+}

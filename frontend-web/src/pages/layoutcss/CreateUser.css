@@ -1,0 +1,35 @@
+.button_back1{
+   width: 35%;
+   margin-right: 35%;
+   background-color:#4bb6fa ;
+   border-radius: 0;
+   border: none;
+  }
+.button_add1{
+  width: 35%;
+ margin-right: -5%;  
+ margin-left: -25%; 
+ background-color:#4bb6fa ;
+  border-radius: 0;
+  border: none;
+  
+}
+.field-set1 .form-input{ 
+  border: 1px solid black;
+  width: 40%;
+  margin-top: 7%;
+}
+.aaa{
+  background: #fff;
+  color: #333;
+  margin: 5.9px 0 0 0;
+  margin-left: -20px;
+  border-radius: 0px 5px 5px 0px;
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
+}
+.form_adduser{
+  width: 35%;
+  margin: 2% auto;
+}

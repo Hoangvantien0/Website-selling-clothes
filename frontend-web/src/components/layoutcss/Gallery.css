@@ -1,0 +1,15 @@
+
+
+.gallery_item1{
+    margin-bottom: 1px;
+    margin-top: 1px;
+    
+    
+}
+.image01 {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 2px rgb(172, 172, 186));
+    transform: scale(.90);
+ 
+}

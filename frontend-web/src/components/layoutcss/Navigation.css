@@ -1,0 +1,79 @@
+
+.nav-toggle{
+    /* background-color:  rgb(212, 210, 221); */
+    /* margin-right: 10px; */
+   
+    
+}
+.shoppp{
+    margin-left: 5%;
+    
+}
+.logo {
+    width: 50px;
+}
+.navbar--form{
+    height: 80px;
+    /* background-color: rgb(250, 250, 251); */
+}
+
+#cartcount {
+    font-size: 10px;
+    background-color: red;
+    color: white;
+    padding: 2px 4px;
+    vertical-align: top;
+    margin-left: -8px;
+    border-radius: 50%;
+    margin-top: -5px;
+}
+
+.badge {
+    padding-left: 9px;
+    padding-right: 9px;
+    border-radius: 9px;
+}
+
+.fa-shopping-cart {
+    font-size: 25px;
+}
+
+.notifications-container {
+    padding: 10px;
+    max-height: 250px;
+    overflow-y: scroll;
+    border: 1px solid rgb(253, 252, 252);
+    background-color: white;
+    width: 250px;
+    z-index: 99;
+}
+
+.notification-read {
+    background-color: rgb(249, 249, 249);
+}
+
+.notification-unread {
+    background-color: lightcoral;
+}
+.fas[data-count] {
+    position: relative;
+}
+
+.fa-bell {
+    font-size: 1.5em;
+}
+
+.fas[data-count]:after {
+    position: absolute;
+    right: -0.75em;
+    top: -0.75em;
+    content: attr(data-count);
+    padding: 0.5em;
+    border-radius: 10em;
+    line-height: 0.9em;
+    color: white;
+    background-color: red;
+    /* text-align:end; */
+    min-width: 2em;
+    font: bold 0.4em sans-serif;
+}
