@@ -55,7 +55,7 @@ function DashboardProducts() {
     return (
   <Container>
       <p>Có ({products.length}) sản phẩm</p>
-    <Table striped bordered hover >
+    <Table striped bordered hover style={{fontSize:"12px"}}>
       <thead>
         <tr  style={{backgroundColor:"#4bb6fa",color:"white"}}>
           <th></th>
@@ -69,7 +69,7 @@ function DashboardProducts() {
       <tbody >
         {products.map((product) => 
         <tr key={product._id}>
-          <td><img src={product.pictures[0].url} style={{ width: 90, height: 90, objectFit: "cover" }} />
+          <td><img src={product.pictures[0].url} style={{ width: 70, height: 70, objectFit: "cover" }} />
           </td>
           <td>{product._id}</td>
           <td>{product.name}</td>

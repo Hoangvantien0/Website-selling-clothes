@@ -8,7 +8,7 @@ require('./connection')
 const server = http.createServer(app);
 const {Server} = require('socket.io');
 const io = new Server(server, {
-  cors: 'http://localhost:3001',
+  cors: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PATCH', "DELETE"]
 })
 
@@ -19,9 +19,10 @@ const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const imageRoutes = require('./routes/imageRoutes');
 const rateRoutes = require('./routes/rateRoutes');
-// const addressRoutes = require('./routes/addressRoutes');
+const addressRoutes = require('./routes/addressRoutes');
 
 // const addressRoutes = require('./controllers/AddressController');
+// const ratesRoutes = require('./controllers/RateController');
 
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
@@ -31,7 +32,8 @@ app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
 app.use('/images', imageRoutes);
 app.use('/rates', rateRoutes);
-// app.use('/address', addressRoutes);
+// app.use('/rate', ratesRoutes);
+app.use('/address', addressRoutes);
 
 app.post('/create-payment', async(req, res)=> {
   const {amount} = req.body;

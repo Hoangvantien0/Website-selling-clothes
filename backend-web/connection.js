@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const mongoose = require('mongoose') ;
 
-const connectionStr =`mongodb+srv://qlshop:jHhuhG6vCzlx8xtC@cluster0.y4issvr.mongodb.net/qlshop?retryWrites=true&w=majority`;
+const connectionStr =`mongodb+srv://qlshop:NTGjIfdJQULHQ8fl@cluster0.y4issvr.mongodb.net/qlshop?retryWrites=true&w=majority`;
 // const connectionStr =`mongodb+srv://shopp:A1yR2JflWkJu3JCP@cluster0.y4issvr.mongodb.net/shopp?retryWrites=true&w=majority`;
 
 mongoose.connect(connectionStr, {useNewUrlParser: true})
@@ -14,3 +14,4 @@ mongoose.connection.on('error', err => {
 })
 
 // jHhuhG6vCzlx8xtC
+// NTGjIfdJQULHQ8fl

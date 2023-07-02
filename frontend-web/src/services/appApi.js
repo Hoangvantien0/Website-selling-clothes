@@ -133,15 +133,46 @@ export const appApi = createApi({
             }),
         }),
         createRate: builder.mutation({
-            query: (product) => ({
-                url: `/rate/${product.id}`,
+            query: (productId) => ({
+                url: `/rate/${productId}`,
                 method: "POST",
+            }),
+        }),
+        //update rate
+        updateRate: builder.mutation({
+            query: (id) => ({
+              url: `/rates/${id}`,
+              method: "PATCH",
+            }),
+        }),
+        //create address
+        createAddress: builder.mutation({
+            query: (address) => ({
+                url: "/address",
+                body: address,
+                method: "POST",
+            }),
+        }),
+        //update address
+        updateAddress: builder.mutation({
+            query: (id) => ({
+              url: `/address/${id}`,
+              method: "PATCH",
+            }),
+        }),
+        //delete address
+        deleteAddress: builder.mutation({
+            query: (id) => ({
+              url: `/address/${id}`,
+              method: "DELETE",
             }),
         }),
     }),
 });
 
 export const {
+    useCreateAddressMutation,
+    useUpdateRateMutation,
     useSignupMutation,
     useLoginMutation,
     useCreateProductMutation,

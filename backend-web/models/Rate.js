@@ -18,6 +18,11 @@ const RateSchema = mongoose.Schema(
       type: String,
       default: "User does not write any content",
     },
+    status: {
+      type: String,
+      enum: ["ChuaDuyet",  "DaDuyet"],
+      default: 'ChuaDuyet'
+    },
   },
   { timestamps: true }
 );

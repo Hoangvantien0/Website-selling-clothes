@@ -1,4 +1,23 @@
-
+.button_review{
+	background-color:#4bb6fa;
+	width: 20%;
+	border: none !important;
+	border-radius: 0;
+  }
+.review_button{
+	border: none;
+    color: white;
+    padding: 3px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+	
+    border-radius: 4px;
+    background-color: #4bb6fa;
+}
 .button_order{
     /* color: #ffffff;
     border-color: #4bb6fa;
@@ -12,7 +31,7 @@
 	display: inline-block;
 	padding: 19px 20px;
 	line-height: normal;
-	border: 1px solid #ffffff;
+	border: 1px double #ffffff;
 	border-radius: 0;
     bottom: 0;
 	text-transform: uppercase;

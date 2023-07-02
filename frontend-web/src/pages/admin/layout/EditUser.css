@@ -1,0 +1,16 @@
+
+.from-new-user-container{
+    width: 50%;
+}
+.row_user{
+    width: 100%;
+    margin-left: 25%;
+}
+/*  */
+.input_file{
+  display: flex;
+}
+.form_group{
+    width: 70%;
+    display: inline-block;
+}

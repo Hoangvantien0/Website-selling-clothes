@@ -13,6 +13,7 @@ function NewProduct() {
     const [category, setCategory] = useState("");
     const [size, setSize] = useState("");
     const [color, setColor] = useState("");
+    const [quality, setQuality] = useState("");
     const [images, setImages] = useState([]);
     const [imgToRemove, setImgToRemove] = useState(null);
     const navigate = useNavigate();
@@ -46,10 +47,10 @@ function NewProduct() {
 // thêm các trường
     function handleSubmit(e) {
         e.preventDefault();
-        if (!name || !desc || !price || !category || !size ||!color || !images.length) {
+        if (!name || !desc || !price || !category || !size ||!color || !images.length  || !quality) {
             return alert("bạn phải thêm tất cả các danh mục");
         }
-        createProduct({ name, desc, price, category, size,color,images }).then(({ data }) => {
+        createProduct({ name, desc, price, category, size,color,images,quality }).then(({ data }) => {
             if (data.length > 0) {
                 setTimeout(() => {
                     navigate("/category/all");
@@ -85,15 +86,15 @@ return (
               </div>
               </div>
             </div>
-            <Link style={{display:"table-cell",borderRadius:"0"}} to="/admin" class="btn submits frgt-pass">Back</Link>
+            <Link style={{display:"table-cell",borderRadius:"0"}} to="/admin" class="btn submits frgt-pass">TRỞ VỀ</Link>
         <Row  >    
              <Col  >
            
                 <Form  className="from-new-product-container bg-light p-25 mb-5"  onSubmit={handleSubmit}  >
                     {isSuccess && <Alert variant="success">Thêm sản phẩm thành công</Alert>}
                     {isError && <Alert variant="danger">{error.data}</Alert>}
-                    <h5 class="  text-uppercase mb-3">
-                  <span class="bg-white pr-3">Thêm sản phẩm mới </span></h5>
+                    <h4 class="  text-uppercase mb-3">
+                  <span class="bg-white pr-3">Thêm sản phẩm mới </span></h4>
                     <Container >
                         <Row>
                             <Col>
@@ -148,7 +149,11 @@ return (
                         <Form.Group className="mb-3">
                                     <Form.Label>Màu</Form.Label>
                                     <Form.Control type="text"  placeholder="Nhập màu" value={color} required onChange={(e) => setColor(e.target.value.split(","))} />
-                                </Form.Group>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                                    <Form.Label>Số lượng hiện có</Form.Label>
+                                    <Form.Control type="number" min="1" placeholder="Nhập số lượng sản phẩm hiện có" value={quality} required onChange={(e) => setQuality(e.target.value)} />
+                        </Form.Group>
                         <Form.Group className="mb-3 ">
                             <Form.Label>Mô Tả Sản Phẩm</Form.Label>
                                 <Form.Control as="textarea" placeholder="Mô Tả Về Sản Phẩm" style={{ height: "210px" }} value={desc} required onChange={(e) => setDescription(e.target.value)} />

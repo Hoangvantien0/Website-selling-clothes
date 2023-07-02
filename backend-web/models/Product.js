@@ -32,7 +32,12 @@ const ProductSchema = mongoose.Schema(
   pictures: {
     type: Array,
     required: true
+  },
+  quality:{
+    type: Number,
+    default: 0,
   }
+
 },
   {timestamps: true }
 );

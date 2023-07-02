@@ -18,14 +18,12 @@ function Navbars() {
     const [bellPos, setBellPos] = useState({});
     // const [showNotifications, setShowNotifications] = useState(false);
 
-
-  
 // 
 function handleLogout() {
     dispatch(logout());
 }
 const unreadNotifications = user?.notifications?.reduce((acc, current) => {
-    if (current.status == "unread") return acc + 1;
+    if (current.status == "HoanTat") return acc + 1;
     return acc;
 }, 0);
 
@@ -113,6 +111,9 @@ function handleToggleNotifications() {
                         </LinkContainer>
                         <LinkContainer to="/orders">
                             <NavDropdown.Item>Đơn mua</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to={`/users/${user._id}/edit`}>
+                            <NavDropdown.Item>Thông tin cá nhân </NavDropdown.Item>
                         </LinkContainer>
                         </>
                         

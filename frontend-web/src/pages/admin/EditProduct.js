@@ -14,6 +14,7 @@ function EditProduct() {
     const [category, setCategory] = useState("");
     const [size, setSize] = useState("");
     const [color, setColor] = useState("");
+    const [quality, setQuality] = useState("");
     const [images, setImages] = useState([]);
     const [imgToRemove, setImgToRemove] = useState(null);
     const navigate = useNavigate();
@@ -31,6 +32,7 @@ function EditProduct() {
                 setSize(product.size)
                 setColor(product.color);
                 setImages(product.pictures);
+                setQuality(product.quality);
             })
             .catch((e) => console.log(e));
     }, [id]);
@@ -63,10 +65,10 @@ function EditProduct() {
     }
     function handleSubmit(e) {
         e.preventDefault();
-        if (!name || !desc || !price || !category || !size ||!color || !images.length) {
+        if (!name || !desc || !price || !category || !size ||!color || !images.length || !quality) {
             return alert("Vui lòng điền tất cả thông tin");
         }
-        updateProduct({ id, name, desc, price, category,size,color, images })
+        updateProduct({ id, name, desc, price, category,size,color, images, quality})
         .then(({ data }) => {
             if (data.length > 0) {
                 setTimeout(() => {
@@ -100,7 +102,7 @@ function EditProduct() {
               </div>
               </div>
             </div>
-            <Link style={{display:"table-cell",borderRadius:"0"}} to="/category/all" class="btn submits frgt-pass">TRỞ VỀ</Link>
+            <Link style={{display:"table-cell",borderRadius:"0"}} to="/admin" class="btn submits frgt-pass">TRỞ VỀ</Link>
         <Row  >     
             <Col >
                 <Form  className="from-new-product-container bg-light p-25 mb-5"  onSubmit={handleSubmit}  >
@@ -165,7 +167,11 @@ function EditProduct() {
                         <Form.Group className="mb-3">
                                     <Form.Label>Màu</Form.Label>
                                     <Form.Control type="text"  placeholder="Nhập màu áo"  value={color} required onChange={(e) => setColor(e.target.value.split(","))} />
-                                </Form.Group>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                                    <Form.Label>Số lượng hiện có</Form.Label>
+                                    <Form.Control type="number"  placeholder="Nhập số lượng sản phẩm hiện có"  value={quality} required onChange={(e) => setQuality(e.target.value)} />
+                        </Form.Group>
                         <Form.Group className="mb-3 ">
                             <Form.Label>Mô Tả Sản Phẩm</Form.Label>
                                 <Form.Control as="textarea" placeholder="Mô Tả Về Sản Phẩm" style={{ height: "210px" }} value={desc} required onChange={(e) => setDesc(e.target.value)} />

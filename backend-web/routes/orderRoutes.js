@@ -1,42 +1,61 @@
 const router = require('express').Router();
 const Order = require('../models/Order');
 const User = require('../models/User');
+const Product = require('../models/Product');
 
 
 //creating an order
-
-router.post('/', async(req, res)=> {
-  const io = req.app.get('socketio');
-  const { userId, cart, username, phone,detail,ward,district,city,cityId,districtId, wardId  } = req.body;
+router.post('/', async (req, res) => {
   try {
-  const user = await User.findById(userId);
-  const order = await Order.create({owner: user._id,products: cart,username,phone,detail,ward,district, city,cityId,districtId,wardId});
-    order.count = cart.count;
-    order.total = cart.total;
+    const io = req.app.get('socketio');
+    const { userId, cart, username, phone, detail, ward, shippingAmount, district, city, cityId, districtId, wardId } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const order = new Order({
+      user: user._id,
+      products: cart,
+      username,
+      phone,
+      detail,
+      ward,
+      district,
+      city,
+      cityId,
+      districtId,
+      wardId,
+      count: cart.count,
+      total: cart.total + shippingAmount
+    });
+
     await order.save();
-    user.cart =  {total: 0, count: 0};
+
+    user.cart = { total: 0, count: 0 };
     user.orders.push(order);
-    const notification = {status: 'unread', message: `New order from ${user.name}`, time: new Date()};
+
+    const notification = { status: 'HoanTat', message: `New order from ${user.name}`, time: new Date() };
     io.sockets.emit('new-order', notification);
-    user.markModified('orders');
+
     await user.save();
-    res.status(200).json(user)
 
+    res.status(200).json(user);
   } catch (e) {
-    res.status(400).json(e.message)
+    res.status(500).json({ error: 'Error creating order' });
   }
-})
+});
 
-// update order
+
 router.patch('/:id', async (req, res) => {
   const { id } = req.params;
   const Status = ["ChoXacNhan", "ChoLayHang", "HoanTat"];
   let status = "";
 
   try {
-    const curOrder = await Order.findById(id);
+    const order = await Order.findById(id);
     for (let i = 0; i < Status.length; i++) {
-      if (curOrder.status === Status[i]) {
+      if (order.status === Status[i]) {
         status = Status[i + 1];
         break;
       }
@@ -45,11 +64,22 @@ router.patch('/:id', async (req, res) => {
     await Order.findByIdAndUpdate(id, { status });
 
     // Load lại danh sách đơn hàng sau khi cập nhật thành công
-    const orders = await Order.find().populate('owner', ['email', 'name']);
+    const orders = await Order.find().populate('user', ['email', 'name']);
+
+    // Tạo danh sách mới bằng cách loại bỏ các trường không cần thiết
+    const newOrders = orders.map(order => ({
+      id: order._id,
+      status: order.status,
+      user: {
+        email: order.user.email,
+        name: order.user.name
+      }
+    }));
+
     res.status(200).json({
       success: true,
       message: "Order updated successfully",
-      data: orders,
+      data: newOrders,
     });
   } catch (error) {
     console.log(error);
@@ -63,35 +93,30 @@ router.patch('/:id', async (req, res) => {
 
 
 
+//delete product
 router.delete('/:id', async (req, res) => {
   try {
     const deletedOrder = await Order.findByIdAndDelete(req.params.id);
     if (!deletedOrder) {
       return res.status(404).send({ error: 'Order not found' });
     }
-    res.send({ message: 'Order deleted successfully' });
+
+    // Lấy danh sách đơn hàng mới sau khi xóa thành công
+    const updatedOrders = await Order.find();
+
+    res.send({ message: 'Order deleted successfully', orders: updatedOrders });
   } catch (err) {
     console.error(err);
     res.status(500).send({ error: 'Server error' });
   }
 });
 
-// getting all orders;
-// router.get('/', async(req, res)=> {
-//   try {
-//     const orders = await Order.find().populate('owner', ['email', 'name']);
-//     res.status(200).json(orders);
-//   } catch (e) {
-//     res.status(400).json(e.message)
-//   }
-// })
 
+ 
 router.get('/', async (req, res) => {
   try {
     const orders = await Order.find({})
-      .populate('owner', ['email', 'name'])
-      // .populate('product'); // Populate the 'products' field and retrieve only the 'name' property
-      
+      .populate('user', ['email', 'name'])      
     res.status(200).json(orders);
   } catch (error) {
     res.status(400).json({
@@ -100,35 +125,19 @@ router.get('/', async (req, res) => {
     });
   }
 });
-// router.get('/', async(req, res)=> {
-// try {
-//   const orders = await Order.find({})
-//     .populate('owner', ['email', 'name'])
-    
-//   res.status(200).json(
-//     orders
-//   );
-// } catch (error) {
-//   res.status(400).json({
-//     success: false,
-//     message: `fail to get list order`,
-//   });
-// }
-// });
-
 //shipping order
 
 router.patch('/:id/mark-shipped', async(req, res)=> {
   const io = req.app.get('socketio');
-  const {ownerId} = req.body;
+  const {userId} = req.body;
   const {id} = req.params;
   // const products = req.params;
   try {
-    const user = await User.findById(ownerId);
+    const user = await User.findById(userId);
     await Order.findByIdAndUpdate(id, {status: 'ChoLayHang'});
-    const orders = await Order.find().populate('owner', ['email', 'name']);
+    const orders = await Order.find().populate('user', ['email', 'name']);
     const notification = {status: 'HoanTat', message: `đơn hàng ${id} đã được giao thành công`, time: new Date()};
-    io.sockets.emit("notification", notification, ownerId);
+    io.sockets.emit("notification", notification, userId);
     user.notifications.push(notification);
     await user.save();
     res.status(200).json(orders)

@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 
 const AddressSchema = mongoose.Schema(
   {
-    user: {
+    owner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    username : { type: String, },
+      ref: 'User',
+      required: true
+    }, 
+    avatar :{type: Array},
     city: { type: String, required: true, },
     district: { type: String, required: true, },
     ward: {type: String, },

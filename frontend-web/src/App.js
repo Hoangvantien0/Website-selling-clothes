@@ -16,10 +16,14 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import OrdersAdminPage from './pages/admin/OrdersAdminPage';
 import Product from './pages/Product';
 import CheckoutProduct from './pages/CheckoutProduct';
-import EditUserPage from './pages/EditUserPage';
-import CreateUser from './pages/CreateUser';
+import EditUserPage from './pages/admin/EditUserPage';
+import CreateUser from './pages/admin/CreateUser';
 import Hom from "./pages/admin/Hom";
 import Comment from './pages/Comment';
+import CheckoutCOD from './components/CheckoutCOD';
+import CheckoutFormStripe from './components/CheckoutFormStripe';
+import ModalReview from './components/ModalReview';
+import UserEdit from './pages/UserEdit';
 // 
 function App() {
   const user = useSelector ((state) => state.user)
@@ -45,6 +49,7 @@ function App() {
                             <Route path="/cart" element={<CartPage />} />
                             <Route path="/orders" element={<OrdersPage />} />
                             <Route path="/checkout" element={<CheckoutProduct />} />
+                            <Route path="/users/:id/edit" element={<UserEdit />} />
                         </>
                     )}
                     {user && user.isAdmin && (
@@ -61,9 +66,10 @@ function App() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/product/:id" element={<ProductPage />} />
                     <Route path="/category/:category" element={<Product />} />
-                    <Route path="/hom" element={<Hom />} />
-                    <Route path="/come" element={<Comment />} />
-                 
+                    
+                    {/* <Route path="/come" element={<Comment />} /> */}
+                    {/* <Route path="/re" element={<ModalReview />} /> */}
+
                     {/*  */}
                     
                    

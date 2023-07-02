@@ -17,8 +17,8 @@ router.get('/', async(req, res)=> {
 //create product
 router.post('/', async(req, res)=> {
   try {
-    const {name, desc, price, category, size , color , images: pictures } = req.body;
-    const product = await Product.create({name, desc, price, category, size, color, pictures});
+    const {name, desc, price, category, size , color , images: pictures,quality } = req.body;
+    const product = await Product.create({name, desc, price, category, size, color, pictures,quality});
     const products = await Product.find();
     res.status(201).json(products);
   } catch (e) {
@@ -32,8 +32,8 @@ router.post('/', async(req, res)=> {
 router.patch('/:id', async(req, res)=> {
   const {id} = req.params;
   try {
-    const {name, desc, price, category, size , color , images: pictures} = req.body;
-    const product = await Product.findByIdAndUpdate(id, {name, desc, price, category, size , color , pictures});
+    const {name, desc, price, category, size , color , images: pictures,quality} = req.body;
+    const product = await Product.findByIdAndUpdate(id, {name, desc, price, category, size , color , pictures,quality});
     const products = await Product.find();
     res.status(200).json(products);
   } catch (e) {
@@ -171,7 +171,7 @@ router.post('/decrease-cart', async(req, res)=> {
     res.status(400).send(e.message);
   }
 })
-//
+//xoá
 router.post('/remove-from-cart', async(req, res)=> {
   const {userId, productId, price} = req.body;
   try {

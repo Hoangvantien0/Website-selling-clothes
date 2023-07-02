@@ -1,4 +1,32 @@
 
+.qty-btn1 {
+  background: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  color: #abafb2;
+  height: 30px;
+  padding: 0;
+  text-align: center;
+  width: 40px;
+  border: 1px solid #dadbdd;
+  border-radius: 0;
+  float: left;
+}
+.item-quantity1{
+font-weight: 500;
+  font-size: 15px;
+  height: 30px;
+  padding: 0;
+  text-align: center;
+  width: 70px;
+  background: #ededed;
+  border: 1px solid #dadbdd;
+  border-radius: 0;
+  float: left;
+}
+
+
+/*  */
 .comment{
     word-spacing: 3px;
     text-align: left;
@@ -16,8 +44,8 @@
     font-size: 90%;
 }
 .button_cart{
-    position: relative;
-	display: inline-block;
+  position: relative;
+	/* display: flex; */
 	padding: 18px 20px;
 	line-height: normal;
 	border: 1px solid #ffffff;
@@ -29,7 +57,7 @@
     /* margin-top: 50px; */
 	letter-spacing: 1px;
     z-index: 1;
-    width: 70%;
+    width: 32%;
 	/* color: #000000; */
     /* vertical-align: center; */
 	/* background-color: transparent; */

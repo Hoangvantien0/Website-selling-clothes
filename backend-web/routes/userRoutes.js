@@ -152,6 +152,9 @@ router.get('/:id', async(req, res)=> {
     res.status(400).send(e.message);
   }
 })
+
+
+
 // get user orders
 
 router.get('/:id/orders', async (req, res)=> {
@@ -159,6 +162,16 @@ router.get('/:id/orders', async (req, res)=> {
   try {
     const user = await User.findById(id).populate('orders');
     res.json(user.orders);
+  } catch (e) {
+    res.status(400).send(e.message);
+  }
+})
+//get address
+router.get('/:id/address', async (req, res)=> {
+  const {id} = req.params;
+  try {
+    const user = await User.findById(id).populate('address');
+    res.json(user.address);
   } catch (e) {
     res.status(400).send(e.message);
   }

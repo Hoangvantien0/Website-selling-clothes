@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {  Card } from "react-bootstrap";
-
+import Rating from "react-rating";
 import { LinkContainer } from "react-router-bootstrap";
 import './layoutcss/ProductPreview.css'
 function ProductPreview({ _id, name, pictures ,price}) {
+
     return (
         
 
@@ -14,6 +15,7 @@ function ProductPreview({ _id, name, pictures ,price}) {
              
                 <Card.Title class="product_name" max>{name}</Card.Title>
                 <Card.Text class="product_price" >{price}₫ </Card.Text>
+                
         
                      
          </Card>

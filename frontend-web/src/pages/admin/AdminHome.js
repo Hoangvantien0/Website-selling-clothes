@@ -55,6 +55,13 @@ function AdminHome ()  {
     (total, order) => total + order.total,
     0
   );
+//doanh thu đơn hàng khi nhập vào là 60%
+  const totalRevenueAfterDiscount = totalRevenue * 0.6;
+  const total1 = Math.floor(totalRevenue - totalRevenueAfterDiscount);
+//
+
+
+
 if (loading) {
     <Loading />;
 }
@@ -74,7 +81,7 @@ if (loading) {
                       <h6 className="mb-10">Đơn Mới</h6>
                       <h3 className="text-bold mb-10">{orders.length}</h3>
                       <p className="text-sm text-success">
-                        <i className="lni lni-arrow-up"></i> +2.00%
+                        <i className="lni lni-arrow-up"></i> +2.00% tăng
                         <span className="text-gray">(30 ngày)</span>
                       </p>
                     </div>
@@ -87,10 +94,11 @@ if (loading) {
                     </div>
                     <div className="content">
                       <h6 className="mb-10">Tổng thu nhập</h6>
-                      <h3 className="text-bold mb-10">{totalRevenue}đ</h3>
+                      <h3 style={{letterSpacing: "3px"}}
+                      className="text-bold mb-10">{totalRevenue}đ</h3>
                       <p className="text-sm text-success">
-                        <i className="lni lni-arrow-up"></i> +5.45%
-                        <span className="text-gray">Tăng</span>
+                        <i className="lni lni-arrow-up"></i>
+                        <span className="text-gray">Thu nhập thực {total1}đ</span>
                       </p>
                     </div>
                   </div>
@@ -104,8 +112,8 @@ if (loading) {
                       <h6 className="mb-10">Tổng sản phẩm</h6>
                       <h3 className="text-bold mb-10">{products.length}</h3>
                       <p className="text-sm text-danger">
-                        <i className="lni lni-arrow-down"></i> -2.00%
-                        <span className="text-gray">Chi phí</span>
+                        <i className="lni lni-arrow-down"></i> 
+                        <span className="text-gray">Chi phí nhập vào 60% giá hiện tại</span>
                       </p>
                     </div>
                   </div>
@@ -119,8 +127,8 @@ if (loading) {
                       <h6 className="mb-10">Người dùng mới</h6>
                       <h3 className="text-bold mb-10">{users.length}</h3>
                       <p className="text-sm text-danger">
-                        <i className="lni lni-arrow-down"></i> -25.00%
-                        <span className="text-gray">Thu nhập</span>
+                        <i className="lni lni-arrow-down"></i> 
+                        <span className="text-gray">(7 ngày +2 người dùng mới )</span>
                       </p>
                     </div>
                   </div>

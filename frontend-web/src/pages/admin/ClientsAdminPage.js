@@ -71,7 +71,7 @@ function ClientsAdminPage() {
         <Button className="button_a1 " >THÊM KHÁCH HÀNG <AiOutlinePlus /></Button>
       </Link>
       
-      <Table className="mt-4 " responsive striped bordered hover>
+      <Table className="mt-4 " responsive striped bordered hover style={{fontSize:"12px"}}>
         <thead>
           <tr  style={{backgroundColor:"#4bb6fa",color:"white"}}>
             <th>Mã khách hàng</th>

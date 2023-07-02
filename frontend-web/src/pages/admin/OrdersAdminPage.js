@@ -189,7 +189,6 @@
 
 
 
-
 import React, { useEffect, useState } from "react";
 import { Badge, Button, Modal, Table, Container, Form,Col,Row } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
@@ -279,7 +278,7 @@ function OrdersAdminPage() {
   }
 
   return (
-    <Container style={{fontSize:"13px"}}>
+    <Container >
       <Form.Select style={{width:"10%"}} className="mb-3" value={status} onChange={handleFilter}>
         <option value="all">Tất cả</option>
         <option value="ChoXacNhan">Chờ xác nhận</option>
@@ -289,11 +288,11 @@ function OrdersAdminPage() {
       </Form.Select>
 
       <div className="card-style-order">
-        <Table responsive bordered>
+        <Table responsive bordered style={{fontSize:"12px"}}>
           <thead>
-            <tr style={{backgroundColor:"#4bb6fa"}}>
+            <tr style={{backgroundColor:"#4bb6fa",color:"white"}}>
               <th>Khách Hàng</th>
-              <th>Số đơn</th>
+              <th>Số lượng</th>
               <th>Thời gian</th>
               <th>Địa chỉ</th>
               <th>Số điện thoại</th>
@@ -313,7 +312,7 @@ function OrdersAdminPage() {
                   {item.detail}, {item.ward}, {item.district}, {item.city}
                 </td>
                 <td>{item.phone}</td>
-                <td>{item.total}</td>
+                <td>{item.total}đ</td>
                 <td>
                   <Badge
                     className="w-100"
@@ -331,14 +330,18 @@ function OrdersAdminPage() {
                     {item.status}
                   </Badge>
                 </td>
-                <td>
+                <td style={{width:"50px"}}>
                   {item.status === "ChoLayHang" &&  (
-                    <Button variant="warning" onClick={() => updateOrderStatus(item._id)} disabled={isLoading }>
+                    <Button variant="warning" 
+                    onClick={() => updateOrderStatus(item._id)}
+                    style={{fontSize:"10px"}}
+                     disabled={isLoading }>
                       CẬP NHẬT
                     </Button>
                   )}
                   {item.status === "ChoXacNhan" &&  (
-                    <Button   variant="warning" onClick={() => updateOrderStatus(item._id)} disabled={isLoading }>
+                    <Button style={{fontSize:"10px"}} variant="warning"
+                     onClick={() => updateOrderStatus(item._id)} disabled={isLoading }>
                      CẬP NHẬT
                     </Button>
                   )}

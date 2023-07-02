@@ -36,7 +36,8 @@ const UserSchema = mongoose.Schema({
     type: Object,
     default: {
       total: 0,
-      count: 0
+      count: 0,
+      
     }
   },
 

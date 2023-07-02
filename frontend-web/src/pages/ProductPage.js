@@ -6,7 +6,7 @@ import { ButtonGroup, Form, Button,Col,Row,Container,Pagination   } from "react-
 import { useSelector } from "react-redux";
 import Loading from "../components/Loading";
 import { useParams } from "react-router-dom";
-import { useAddToCartMutation } from "../services/appApi";
+// import { useAddToCartMutation } from "../services/appApi";
 import "./layoutcss/ProductPage.css";
 import { LinkContainer } from "react-router-bootstrap";
 import ToastMessage from "../components/ToastMessage";
@@ -14,11 +14,13 @@ import ProductPreview from "../components/ProductPreview";
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
 import Rating from "react-rating";
-// import Comment from "./Comment";
-// import rateApi from "../axio/rateApi";
-// import Rating from "react-rating";
-
+import {  useAddToCartMutation } from "../services/appApi";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
+
+import rateApi from "../axio/rateApi";
 const Filter = styled.div`
     display: flex;
     align-items: center;
@@ -62,20 +64,47 @@ function ProductPage() {
     const user = useSelector((state) => state.user);
     const [product, setProduct] = useState("");
     const [similar, setSimilar] = useState(null);
-    const [addToCart, { isSuccess }] = useAddToCartMutation();
     const handleDragStart = (e) => e.preventDefault();
     const [selectedImage, setSelectedImage] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [addToCart, { isSuccess }] = useAddToCartMutation();
+    const [loading, setLoading] = useState(true);
+
 // rating
 const [currentPage, setCurrentPage] = useState(1);
 const itemsPerPage = 1;
-   //lấy ra sản phẩm và rate 
+// số lượng sp
+const [quantity, setQuantity] = useState(1);
+  const maxQuantity = product.quality; 
+
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+  const incrementQuantity = () => {
+    if (quantity < maxQuantity) {
+      setQuantity(quantity + 1);
+    }
+  };
+  const handleQuantityChange = (event) => {
+    const newQuantity = parseInt(event.target.value);
+    if (newQuantity >= 1 && newQuantity <= maxQuantity) {
+      setQuantity(newQuantity);
+    }
+  };
+  useEffect(() => {
+    setLoading(true);
+    setQuantity(1); 
+  }, []);
+//lấy ra sản phẩm và rate 
     useEffect(() => {
       const fetchData = async () => {
+        setLoading(true);
         try {
           const productResponse = await axios.get(`/products/${id}`);
           const rateResponse = await axios.get(`/rates/${id}`);
-          
+          setLoading(false);
           setProduct(productResponse.data.product);
           setSimilar(productResponse.data.similar);
           setSelectedImage(productResponse.data.product.pictures[0].url);
@@ -84,14 +113,13 @@ const itemsPerPage = 1;
           console.log(error);
         }
       };
-  
       fetchData();
     }, [id]);
-
-      const handleImageClick = (url) => {
-        setSelectedImage(url);
+//
+const handleImageClick = (url) => {
+    setSelectedImage(url);
     };
-
+//
     if (!product) {
         return <Loading />;
     }
@@ -100,7 +128,7 @@ const itemsPerPage = 1;
         568: { items: 2 },
         1024: { items: 3 },
     };
-
+//
     let similarProducts = [];
     if (similar) {
         similarProducts = similar.map((product, idx) => (
@@ -109,22 +137,19 @@ const itemsPerPage = 1;
             </div>
         ));
     }
-// list rate
+// đánh giá sp
+const totalPages = Math.ceil(rates.length / itemsPerPage);
 
- // Calculate total number of pages
- const totalPages = Math.ceil(rates.length / itemsPerPage);
+// Get current items to display
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = rates.slice(indexOfFirstItem, indexOfLastItem);
 
- // Get current items to display
- const indexOfLastItem = currentPage * itemsPerPage;
- const indexOfFirstItem = indexOfLastItem - itemsPerPage;
- const currentItems = rates.slice(indexOfFirstItem, indexOfLastItem);
-
- // Function to handle page change
- const handlePageChange = (pageNumber) => {
-   setCurrentPage(pageNumber);
- };
- 
-  
+// Function to handle page change
+const handlePageChange = (pageNumber) => {
+  setCurrentPage(pageNumber);
+};
+//
 return (
   <Container fluid>  
     <div  className=" mt-3">
@@ -162,7 +187,7 @@ return (
     {/*  */}
           </Col>
           <Col>
-            <Filter> <Price>{product.name}</Price> </Filter>
+            <Filter> <Price>{product.name} ( Còn {product.quality} sản phẩm)</Price></Filter>
             <Filter>  <Price>{product.price}₫</Price> </Filter>
             <Filter>
             <FilterTitle>Kích thước</FilterTitle>
@@ -183,43 +208,55 @@ return (
                 key={c}/>
             ))}
           </Filter>
+          
+              <Filter>
+          <div className="quantity mx-auto" style={{ width: "100%" }}>
+            <div className="input-group-btn">
+              <button type="button" className="qtyminus qty-btn1" onClick={decrementQuantity}>
+                <i className="fa fa-minus"></i>
+              </button>
+            </div>
+            <input
+              type="number" min="1" value={quantity} 
+              className="tc line-item-qty item-quantity1" 
+              onChange={handleQuantityChange}
+            />
+            <div className="input-group-btn">
+              <button type="button" className="qtyplus qty-btn1" onClick={incrementQuantity}>
+                <i className="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </Filter>
           {user && !user.isAdmin && (
-            <ButtonGroup style={{ width: "80%"}} className="mt ">
-              <Form.Select size="lg" style={{ width: "20%",textAlign:"left" }}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </Form.Select>                         
-              <button class="button_cart dark" onClick={() => addToCart({ userId: user._id, productId: id, price: product.price,sizes: product.size[0].url, image: product.pictures[0].url })} >
+            <ButtonGroup style={{ width: "100%"}} className=" ">
+              
+              <button class="button_cart dark" onClick={() => addToCart({ userId: user._id, productId: id, price: product.price, image: product.pictures[0].url })} >
                Thêm Vào Giỏ Hàng
               </button>
             </ButtonGroup>                          
           )}
               {/* admin edit sp */}
                   {user && user.isAdmin && (
-                    <a class="button button_cart dark  " href={`/product/${product._id}/edit`} title="Sửa sản phẩm"><i class="fa fa-reply"></i>Sửa sản phẩm</a>
+                    <ButtonGroup style={{ width: "100%"}} className=" ">
+                    <a style={{}} class="button button_cart dark" size="lg" href={`/product/${product._id}/edit`} title="Sửa sản phẩm"><i class="fa fa-reply"></i>Sửa sản phẩm</a>
+                    </ButtonGroup> 
                     )}
                     {/* thong báo thêm sp vào cart */}
                     {isSuccess && <ToastMessage bg="info" title="Hãy tiếp tục thêm Sản phẩm" body={`${product.name} đã có trong giỏ hàng của bạn`} />}
   
-                   <p class="comment"> Mô tả </p>
-                        
+                   <p class="comment mt-3"> Mô tả </p>
                     <div class="comment1 py-2" style={{ textAlign: "justify" }}>
-                      <p>Bảng size Cemmery :
-
-                      <br/>M : Dài 70 Rộng 56 | 1m55 - 1m60, 45kg - 55kg
-
-                      <br/>L : Dài 72 Rộng 58 | 1m60 - 1m75, 55kg - 65kg
-
-                      <br/>XL : Dài 74 Rộng 60 | trên 1m75, trên 70kg
+                      <p>Bảng size áo Cemmery :<br/>
+                      <br/>M : Dài 70 Rộng 56 | 1m55 - 1m60, 45kg - 55kg<br/>
+                      <br/>L : Dài 72 Rộng 58 | 1m60 - 1m75, 55kg - 65kg<br/>
+                      <br/>XL : Dài 74 Rộng 60 | trên 1m75, trên 70kg<br/>
+                      <br/>Bảng size quần Cemmery :<br/>
+                      <br/> M : Dài 56 Rộng 69 | 1m55 - 1m60, 45kg - 55kg<br/>
+                      <br/>L : Dài 58 Rộng 70 | 1m60 - 1m75, 55kg - 60kg<br/>
+                      <br/>XL : Dài 60 Rộng 72 | trên 1m75, trên 70kg 
                     </p>
-                        <p>🔹Chất liệu: Vải CVC mềm mại, ít nhăn, co giãn tốt, thoải mái, thấm hút mồ hôi
-                          Công nghệ: In dập nổi kết hợp&nbsp;thêu tỉ mỉ,&nbsp;khó bong tróc.</p>
-                        {/* <img style={{height:"180px",marginLeft:"15%",objectFit:"cover"}} src="https://scontent.fsgn8-3.fna.fbcdn.net/v/t1.15752-9/341036386_907486593868722_5602281928042866389_n.png?_nc_cat=110&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GpfuL1FreF8AX9dNgZJ&_nc_ht=scontent.fsgn8-3.fna&oh=03_AdSQOyZ5UFl0ZUp0FNLEXPOluGeP1M8zAImsO--mip-hLQ&oe=6460A244"/> */}
-                        {/* <img style={{height:"230px",width:"350px",marginLeft:"20%",objectFit:"cover"}} src="https://scontent.fsgn8-3.fna.fbcdn.net/v/t1.15752-9/346074462_496989499219768_6798538210275490416_n.png?_nc_cat=100&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GdWH1iBcCV0AX9uPk9Y&_nc_oc=AQm6K6H8iQ7w0M4K5mRsggozdeZm4qWrtZsQAnMdAr4OvupO8jk6msLZWSbNe-Irl8s&_nc_ht=scontent.fsgn8-3.fna&oh=03_AdQReff3kbSicV_j0Eaz8oq3emv6GPz10h74f-JqrA_bvA&oe=6484356E"/> */}
-
+                        <p>🔹{product.desc}</p>
                         <p>
                             <br/>Hướng dẫn sử dụng :
                             <br/>Nhớ lộn áo trái khi giặt và không giặt ngâm<b/>
@@ -229,7 +266,6 @@ return (
                             <br/>Miễn phí đổi hàng cho khách trong trường hợp bị lỗi từ nhà sản xuất, giao nhầm trong vòng 30 ngày.
                             </p>
                     </div>
-
                 </Col>
             </Row>
               {/* đánh giá sản phẩm */}
@@ -240,7 +276,7 @@ return (
             <b>ĐÁNH GIÁ SẢN PHẨM</b>
             </h3>
           </div>
-          {currentItems.map((rate) => (
+          {currentItems.map((rates) => (
             <Row className="bg-light product_user" key={currentItems.id}>
               <Col sm={1} style={{ padding: "0" }}>
                 <div className="bg-light p-30">
@@ -254,30 +290,30 @@ return (
                 </div>
               </Col>
               <Col className="rating__main tab-content">
-                <div className="rating_content nav-tabs">
+                {/* <div className="rating_content nav-tabs">
                   <p>
-                    Khách hàng : {rate.user.name}
+                    Khách hàng : {rates.user.name}
                     <br />
-                    Email : {rate.user.email}
+                    Email : {rates.user.email}
                   </p>
-                </div>
+                </div> */}
                 <div className="rating">
                   ĐÁNH GIÁ:{" "}
                   <Rating
-                    initialRating={rate.score}
+                    initialRating={rates.score}
                     emptySymbol={<i className="far fa-star"></i>}
                     fullSymbol={<i className="fas fa-star"></i>}
                     readonly
                   />
+                 
                 </div>
                 <div>
-                  <p className="nav-tabs">{rate.content}</p>
+                  <p className="nav-tabs">{rates.content}</p>
                 </div>
+
               </Col>
             </Row>
-          ))}
-          
-
+          ))}   
            <Pagination>
         {Array.from({ length: totalPages }, (_, index) => (
           <Pagination.Item
@@ -291,7 +327,7 @@ return (
       </Pagination>
         </Container>
 
-    
+{/* sản phẩm liên quan  */}
             <div class="mt-4">
                 <h2>SẢN PHẨM LIÊN QUAN</h2>
                 <div className="d-flex justify-content-center align-items-center flex-wrap mt-4">
@@ -316,47 +352,3 @@ return (
 }
 
 export default ProductPage;
-
-{/* <Container style={{ width: "80%" }} className="bg-light mt-4">
-          <div className="nav nav-tabs mb-4">
-            <a className="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">
-              ĐÁNH GIÁ SẢN PHẨM
-            </a>
-          </div>
-          {rates.map((rate) => (
-            <Row className="bg-light product_user" key={rate.id}>
-              <Col sm={1} style={{ padding: "0" }}>
-                <div className="bg-light p-30">
-                  <div className="product-rating">
-                    <img
-                      style={{ height: "60%", width: "60%" }}
-                      src="https://static.vecteezy.com/system/resources/previews/007/407/996/original/user-icon-person-icon-client-symbol-login-head-sign-icon-design-vector.jpg"
-                      alt="User Avatar"
-                    />
-                  </div>
-                </div>
-              </Col>
-              <Col className="rating__main tab-content">
-                <div className="rating_content nav-tabs">
-                  <p>
-                    {rate.user.name}
-                    <br />
-                    {rate.user.email}
-                  </p>
-                </div>
-                <div className="rating">
-                  ĐÁNH GIÁ:{" "}
-                  <Rating
-                    initialRating={rate.score}
-                    emptySymbol={<i className="far fa-star"></i>}
-                    fullSymbol={<i className="fas fa-star"></i>}
-                    readonly
-                  />
-                </div>
-                <div>
-                  <p className="nav-tabs">{rate.content}</p>
-                </div>
-              </Col>
-            </Row>
-          ))}
-        </Container> */}

@@ -1,6 +1,6 @@
 .detail-order{
-    border-top: 1px dotted black !important;
-    border-right: 1px dotted black !important ;
-    border-left: 1px dotted black !important;
-    border-bottom: 1px dotted black !important ;
+    border-top: 1px double black !important;
+    border-right: 1px double black !important ;
+    border-left: 1px double black !important;
+    border-bottom: 1px double black !important ;
 }

@@ -4,7 +4,12 @@ const OrderSchema = mongoose.Schema({
   products: {
     type: Object
   },
-  owner: {
+  // product: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Product',
+  //   required: true
+  // },
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
@@ -32,7 +37,8 @@ const OrderSchema = mongoose.Schema({
   ward: {type: String, },
   district: { type: String, required: true, },
   city: { type: String, required: true, },
-  
+  shippingAmount: { type: Number },
+
   cityId:{  type: String, },  //id tỉnh
   districtId: { type: String,  },//id quận
   wardId: {  type: String, },  //id phường
