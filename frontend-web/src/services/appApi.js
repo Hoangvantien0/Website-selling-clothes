@@ -117,14 +117,15 @@ export const appApi = createApi({
                 method: "POST",
             }),
         }),
-        //update order
-        updateOrder: builder.mutation({
-            query: (id) => ({
-                url:`/orders/${id}` ,
-                method: "PATCH",
-               
-            })
+        //create order card
+        createOrderCard: builder.mutation({
+            query: (body) => ({
+                url: "/orders/create",
+                body,
+                method: "POST",
+            }),
         }),
+  
         // delete order
         deleteOrder: builder.mutation({
             query: (id) => ({
@@ -138,13 +139,7 @@ export const appApi = createApi({
                 method: "POST",
             }),
         }),
-        //update rate
-        updateRate: builder.mutation({
-            query: (id) => ({
-              url: `/rates/${id}`,
-              method: "PATCH",
-            }),
-        }),
+      
         //create address
         createAddress: builder.mutation({
             query: (address) => ({
@@ -181,6 +176,7 @@ export const {
     useIncreaseCartProductMutation,
     useDecreaseCartProductMutation,
     useCreateOrderMutation,
+    useCreateOrderCardMutation,
     useDeleteProductMutation,
     useUpdateProductMutation,
     useDeleteUserMutation,

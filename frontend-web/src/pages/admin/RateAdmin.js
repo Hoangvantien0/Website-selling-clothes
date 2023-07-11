@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Table, Button,Col,Container ,Badge} from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useUpdateRateMutation } from "../../services/appApi";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
 import axios from "../../axios";
@@ -17,7 +16,6 @@ function RateAdmin() {
     const [rates, setRates] = useState([]);
     const [status, setStatus] = useState([]);
     const { id } = useParams();
-    const [updateRate, { isLoading, isSuccess }] = useUpdateRateMutation();
 
     // const product = useSelector((state) => state.product);
 
@@ -40,6 +38,20 @@ function RateAdmin() {
     //   }
     // }
 
+const handleUpdateRate = async (id) => {
+  try {
+    setLoading(true); // Start loading
+    const response = await axios.patch(`http://localhost:8080/rates/update/${id}`);
+    const { data } = response.data;
+    setStatus(data.status);
+    setRates(data);
+    setLoading(false);
+  } catch (error) {
+    console.log(error);
+    setLoading(false); // Stop loading
+  }
+};
+
     // 
     useEffect(() => {
         setLoading(true);
@@ -54,19 +66,7 @@ function RateAdmin() {
             console.log(e);
           });
       }, []);
-//update rate
-const handleUpdateRate = async (id) => {
-  try {
-    setLoading(true);
-    const {data} = await updateRate(id);
-    setStatus(data.status);
-    setRates(data);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setLoading(false);
-  }
-};
+
 
 //
 const getBadgeColor = (status) => {
@@ -80,9 +80,10 @@ const getBadgeColor = (status) => {
 };
 
 
-    if (loading) {
-        <Loading />;
-    }
+if (loading) {
+  return <Loading />;
+}
+
     return (
   <Container>
       <p>Có ({rates.length}) đánh giá</p>

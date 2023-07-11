@@ -4,7 +4,6 @@ import React from "react";
 import { Alert, Col, Container, Row, Table,Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import CheckoutForm from "../components/CheckoutForm";
 import { useIncreaseCartProductMutation, useDecreaseCartProductMutation, useRemoveFromCartMutation } from "../services/appApi";
 import "./layoutcss/CartPage.css";
 
@@ -18,17 +17,7 @@ function CartPage() {
     const [increaseCart] = useIncreaseCartProductMutation();
     const [decreaseCart] = useDecreaseCartProductMutation();
     const [removeFromCart, { isLoading }] = useRemoveFromCartMutation();
-    // const [similar, setSimilar] = useState(null);
-    // const [product, setProduct] = useState("");
-    // 
-    // const handleDragStart = (e) => e.preventDefault();
-    // useEffect(() => {
-    //     axios.get(`/products/${id}`).then(({ data }) => {
-    //         setProduct(data.product);
-    //         setSimilar(data.similar);
-    //     });
-    // }, [id]);
-    // 
+ 
     function handleDecrease(product) {
         const quantity = user.cart[product.productId];
         if (quantity <= 1) {
@@ -64,6 +53,7 @@ function CartPage() {
                 <thead>
                     <tr style={{backgroundColor:"#4bb6fa",color:"white"}}>
                         <th>Sản phẩm</th>
+                        <th>Kích thước</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
                         <th>Tổng</th>
@@ -81,7 +71,8 @@ function CartPage() {
                        
                         &nbsp;&nbsp;{item.name}
                         </td>
-                        <td>{item.price}₫</td>
+                        <td>{item.size[0]}</td>
+                        <td>{item.price}₫ </td>
                         <td className="align-middle">
                         <div className=" quantity mx-auto" style={{ width: "100px" }} >
                           <div className="input-group-btn">
@@ -109,7 +100,7 @@ function CartPage() {
                       </td>
                       {/*  */}
                     
-                    <td>{item.price * user.cart[item._id]}₫</td>
+                    <td>{(item.price * user.cart[item._id]).toLocaleString('vi-VN')}₫</td>
                     <td> 
                     <button
                           className="btn btn-sm btn-danger"
@@ -123,9 +114,7 @@ function CartPage() {
                 
                 </tbody>
                 </Table> 
-                
-    
-                
+           
           </div>
             </Col>
            
@@ -136,7 +125,7 @@ function CartPage() {
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Tạm Tính</h6>
-                            <h6>{user.cart.total}₫</h6>
+                            <h6>{(user.cart.total).toLocaleString('vi-VN')}₫</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Phí Vận Chuyển</h6>
@@ -146,7 +135,7 @@ function CartPage() {
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Tổng Đơn</h5>
-                            <h5>{(user.cart.total)}₫</h5>
+                            <h5>{(user.cart.total).toLocaleString('vi-VN')}₫</h5>
                         </div>
                         <div class="d-flex justify-content-between mt-2">
                         <Link style={{marginLeft:"1px"}} to="/category/all"class="mt-4 btn-checkout  button dark" name="checkout">TIẾP TỤC MUA </Link>

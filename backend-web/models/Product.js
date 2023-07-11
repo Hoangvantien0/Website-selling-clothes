@@ -33,7 +33,7 @@ const ProductSchema = mongoose.Schema(
     type: Array,
     required: true
   },
-  quality:{
+  quatity:{
     type: Number,
     default: 0,
   }

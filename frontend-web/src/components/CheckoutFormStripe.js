@@ -4,7 +4,7 @@ import { Alert, Button, Col, Form, Row,Container } from "react-bootstrap";
 import axios from "../axios";
 import { useSelector } from "react-redux";
 import { useNavigate,Link } from "react-router-dom";
-import { useCreateOrderMutation } from "../services/appApi";
+import { useCreateOrderCardMutation } from "../services/appApi";
 import "./layoutcss/CheckoutForm.css"
 import  { instanceApiGHN } from "../axio/axios";
 let addressTemp = [];
@@ -14,7 +14,7 @@ function CheckoutFormStripe() {
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
     const [alertMessage, setAlertMessage] = useState("");
-    const [createOrder, { isLoading, isError, isSuccess }] = useCreateOrderMutation();
+    const [createOrderCard, { isLoading, isError, isSuccess }] = useCreateOrderCardMutation();
     const [username, setUsername] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
@@ -50,7 +50,7 @@ function CheckoutFormStripe() {
         setPaying(false);
 
         if (paymentIntent) {
-            createOrder({ userId: user._id, cart: user.cart,
+          createOrderCard({ userId: user._id, cart: user.cart,
               username,
               shippingAmount :shippingAmount,
               phone ,
@@ -260,7 +260,7 @@ const handleCalculatorFee = async (e) => {
       <div className="d-flex justify-content-between pt-3 pb-2mb-3">
       <Link  to="/cart" id="checkout" class=" button_pay dark" name="checkout">Giỏ hàng</Link>
       <button class="button_pay dark "   type="submit" disabled={user.cart.count <= 0 || paying || isSuccess}   >
-      {paying ? "Sử lý..." : "Xác Nhận Thanh toán"}
+      {paying ? "Xử lÝ..." : "Xác Nhận Thanh toán"}
       </button>              
       </div>          
       </Form.Group>   
@@ -276,7 +276,7 @@ const handleCalculatorFee = async (e) => {
                 <div class="border-bottom mt-2">
                   <div class="d-flex justify-content-between">
                     <img className="me-4 " src={item.pictures[0].url} style={{ width: "40px" }} />
-                    <p>{item.price}₫</p>
+                    <p>{(item.price)}₫</p>
                     
                   </div>
                 </div>
@@ -284,17 +284,17 @@ const handleCalculatorFee = async (e) => {
               <div class="border-bottom pt-3 pb-2">
                 <div class="d-flex justify-content-between mb-3">
                   <h6>Tạm Tính</h6>
-                  <h6>{user.cart.total}₫</h6>
+                  <h6>{(user.cart.total).toLocaleString('vi-VN')}₫</h6>
                 </div>
                 <div class="d-flex justify-content-between">
                   <h6 class="font-weight-medium">Phí Vận Chuyển</h6>
-                  <h6 class="font-weight-medium">{shippingAmount}đ</h6>
+                  <h6 class="font-weight-medium">{shippingAmount.toLocaleString('vi-VN')}đ</h6>
                 </div>
               </div>
               <div class="pt-2">
                 <div class="d-flex justify-content-between mt-2">
                   <h5>Tổng đơn</h5>
-                  <h5>{user.cart.total + parseInt(shippingAmount)}₫</h5>
+                  <h5>{(user.cart.total + parseInt(shippingAmount)).toLocaleString('vi-VN')}₫</h5>
                 </div>
               </div>
             </div>

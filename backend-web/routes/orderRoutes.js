@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Order = require('../models/Order');
 const User = require('../models/User');
 const Product = require('../models/Product');
-
+//
 
 //creating an order
 router.post('/', async (req, res) => {
@@ -31,6 +31,48 @@ router.post('/', async (req, res) => {
     });
 
     await order.save();
+  
+    user.cart = { total: 0, count: 0 };
+    user.orders.push(order);
+
+    const notification = { status: 'HoanTat', message: `New order from ${user.name}`, time: new Date() };
+    io.sockets.emit('new-order', notification);
+
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (e) {
+    res.status(500).json({ error: 'Error creating order' });
+  }
+});
+//create order card
+router.post('/create', async (req, res) => {
+  try {
+    const io = req.app.get('socketio');
+    const { userId, cart, username, phone, detail, ward, shippingAmount, district, city, cityId, districtId, wardId } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const order = new Order({
+      user: user._id,
+      products: cart,
+      username,
+      phone,
+      detail,
+      ward,
+      district,
+      city,
+      cityId,
+      districtId,
+      wardId,
+      count: cart.count,
+      total: cart.total + shippingAmount,
+      status: 'ChoLayHang'
+    });
+
+    await order.save();
 
     user.cart = { total: 0, count: 0 };
     user.orders.push(order);
@@ -45,9 +87,8 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: 'Error creating order' });
   }
 });
-
-
-router.patch('/:id', async (req, res) => {
+//
+router.patch('/update/:id', async (req, res) => {
   const { id } = req.params;
   const Status = ["ChoXacNhan", "ChoLayHang", "HoanTat"];
   let status = "";
@@ -62,24 +103,13 @@ router.patch('/:id', async (req, res) => {
     }
 
     await Order.findByIdAndUpdate(id, { status });
-
+   
     // Load lại danh sách đơn hàng sau khi cập nhật thành công
     const orders = await Order.find().populate('user', ['email', 'name']);
-
-    // Tạo danh sách mới bằng cách loại bỏ các trường không cần thiết
-    const newOrders = orders.map(order => ({
-      id: order._id,
-      status: order.status,
-      user: {
-        email: order.user.email,
-        name: order.user.name
-      }
-    }));
-
     res.status(200).json({
       success: true,
       message: "Order updated successfully",
-      data: newOrders,
+      data: orders,
     });
   } catch (error) {
     console.log(error);
@@ -91,6 +121,31 @@ router.patch('/:id', async (req, res) => {
 });
 
 
+
+// router.put('/update/:id', async (req, res) => {
+//   const { orderId } = req.params;
+//   const { status } = req.body;
+
+//   try {
+//     // Tìm đơn hàng dựa trên ID
+//     const order = await Order.findById(orderId);
+
+//     if (!order) {
+//       return res.status(404).json({ error: 'Không tìm thấy đơn hàng.' });
+//     }
+
+//     // Cập nhật trạng thái đơn hàng
+//     order.status = status;
+
+//     // Lưu thay đổi
+//     await order.save();
+
+//     res.json(order);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Đã xảy ra lỗi server.' });
+//   }
+// });
 
 
 //delete product
@@ -134,7 +189,7 @@ router.patch('/:id/mark-shipped', async(req, res)=> {
   // const products = req.params;
   try {
     const user = await User.findById(userId);
-    await Order.findByIdAndUpdate(id, {status: 'ChoLayHang'});
+    await Order.findByIdAndUpdate(id, {status: 'HoanTat'});
     const orders = await Order.find().populate('user', ['email', 'name']);
     const notification = {status: 'HoanTat', message: `đơn hàng ${id} đã được giao thành công`, time: new Date()};
     io.sockets.emit("notification", notification, userId);

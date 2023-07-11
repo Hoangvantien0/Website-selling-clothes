@@ -14,3 +14,36 @@
     width: 70%;
     display: inline-block;
 }
+.form2{
+    width: 50%;
+   display: inline-table;
+   margin-top: 10px;
+   background:rgb(226 226 226);
+}
+.update_user {
+    display: inline-block;
+    color: #252537;
+  
+    width: 280px;
+    height: 50px;
+  
+    padding: 0 20px;
+    background: #c5c7c6;
+    border-radius: 5px;
+    
+    outline: none;
+    border: none;
+  
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s linear;
+    
+    margin: 7% auto;
+    letter-spacing: 0.05em;
+}
+.update_user {
+    width: 48%;
+    display: inline-block;
+    
+    margin-left: 2%;
+}

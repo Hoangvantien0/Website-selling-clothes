@@ -17,8 +17,8 @@ router.get('/', async(req, res)=> {
 //create product
 router.post('/', async(req, res)=> {
   try {
-    const {name, desc, price, category, size , color , images: pictures,quality } = req.body;
-    const product = await Product.create({name, desc, price, category, size, color, pictures,quality});
+    const {name, desc, price, category, size , color , images: pictures,quatity } = req.body;
+    const product = await Product.create({name, desc, price, category, size, color, pictures,quatity});
     const products = await Product.find();
     res.status(201).json(products);
   } catch (e) {
@@ -32,8 +32,8 @@ router.post('/', async(req, res)=> {
 router.patch('/:id', async(req, res)=> {
   const {id} = req.params;
   try {
-    const {name, desc, price, category, size , color , images: pictures,quality} = req.body;
-    const product = await Product.findByIdAndUpdate(id, {name, desc, price, category, size , color , pictures,quality});
+    const {name, desc, price, category, size , color , images: pictures,quatity} = req.body;
+    const product = await Product.findByIdAndUpdate(id, {name, desc, price, category, size , color , pictures,quatity});
     const products = await Product.find();
     res.status(200).json(products);
   } catch (e) {
@@ -111,7 +111,6 @@ router.get('/search', async(req,res)=> {
       });
     }
 });
-
 
 
 // add to cart routes

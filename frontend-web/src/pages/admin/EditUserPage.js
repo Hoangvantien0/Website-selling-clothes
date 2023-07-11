@@ -68,7 +68,7 @@ const EditUserPage = () => {
             </div>
      {/* <div class="overlay body2"> */}
 
-    <form class="form2  bg-light " onSubmit={handleSubmit} >
+    <form class="form2  " onSubmit={handleSubmit} >
     <h5 class="  text-uppercase mb-3">
     <span class="bg-white pr-3">CHỈNH SỬA TÀI KHOẢN</span></h5>
     <br/>
@@ -81,21 +81,21 @@ const EditUserPage = () => {
         <i class="fa fa-user-circle"></i>
         </span>
 
-        <input  class="form-input3"  type="text" placeholder="Tên" 
+        <input  class="form-input"  type="text" placeholder="Tên" 
           value={name} required onChange={(e) => setName(e.target.value)} />
         
         <br/>
         <span class="input-item">
         <i aria-hidden="true" class="fa fa-envelope"></i>
         </span>
-        <input class="form-input3" type="email" placeholder="email"   name="email"
+        <input class="form-input" type="email" placeholder="email"   name="email"
          value={email} required onChange={(e) => setEmail(e.target.value)}/>
         
         <br/>
         <span class="input-item">
         <i class="fa fa-key"></i>
         </span>
-        <input class="form-input3" type={showPassword ? "text" : "password"} placeholder="Mật khẩu" id="pwd" 
+        <input class="form-input" type={showPassword ? "text" : "password"} placeholder="Mật khẩu" id="pwd" 
          name="password" value={password} required onChange={(e) => setPassword(e.target.value)}/>
         <span>
         <i className="fa fa-eye" aria-hidden="true" type="button" id="eye1"onClick={togglePasswordVisibility} ></i>
@@ -109,7 +109,7 @@ const EditUserPage = () => {
       </div> */}
         {/* đăng ký */}
         <br/>
-        <button  type="submit"  class="log-in"  disabled={isLoading || isSuccess}>CẬP NHẬT</button>
+        <button  type="submit"  className="update_user"  disabled={isLoading || isSuccess}>CẬP NHẬT</button>
     </div>
     
         <Link to="/admin" class="btn submits frgt-pass">TRỞ VỀ</Link>

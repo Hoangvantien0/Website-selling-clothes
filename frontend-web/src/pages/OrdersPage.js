@@ -241,7 +241,7 @@ const handleRating = (value) => {
                     {order.status}
                   </Badge>
                 </td>
-                <td>{order.total}đ</td>
+                <td>{(order.total).toLocaleString('vi-VN')}đ</td>
                 <td style={{width:"70px" ,textAlign:"left"}}>
                     <span style={{ cursor: "pointer" }} onClick={() => showOrder(order.products)}>
                     XEM ĐƠN <i className="fa fa-eye"></i>
@@ -276,11 +276,11 @@ const handleRating = (value) => {
                             <img src={order.pictures[0].url} style={{ maxWidth: 100, height: 100, objectFit: "cover" }} />
                             </Col >
                             <Col className="detail-order" sm={5}>
-                               ({order.count})&nbsp; đơn {order.name}
+                               ({order.count})&nbsp; đơn {order.name} size {order.size[0]}
                                
                             </Col>
                             <Col className="detail-order" sm={4}>
-                            Tổng:&nbsp;{Number(order.price) * order.count}₫
+                            Tổng:&nbsp;{(Number(order.price) * order.count).toLocaleString('vi-VN')}₫
                             </Col>
                         </Row>
                         </Container>

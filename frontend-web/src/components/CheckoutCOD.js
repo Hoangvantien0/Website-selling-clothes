@@ -276,17 +276,17 @@ const handleCalculatorFee = async (e) => {
               <div class="border-bottom pt-3 pb-2">
                 <div class="d-flex justify-content-between mb-3">
                   <h6>Tạm Tính</h6>
-                  <h6>{user.cart.total}₫</h6>
+                  <h6>{(user.cart.total).toLocaleString('vi-VN')}₫</h6>
                 </div>
                 <div class="d-flex justify-content-between">
                   <h6 class="font-weight-medium">Phí Vận Chuyển</h6>
-                  <h6 class="font-weight-medium">{shippingAmount}₫</h6>
+                  <h6 class="font-weight-medium">{shippingAmount.toLocaleString('vi-VN')}₫</h6>
                 </div>
               </div>
               <div class="pt-2">
                 <div class="d-flex justify-content-between mt-2">
                   <h5>Tổng đơn</h5>
-                  <h5>{user.cart.total + parseInt(shippingAmount)}₫</h5>
+                  <h5>{(user.cart.total + parseInt(shippingAmount)).toLocaleString('vi-VN')}₫</h5>
                 </div>
               </div>
             </div>

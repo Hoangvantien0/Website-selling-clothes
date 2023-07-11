@@ -51,7 +51,7 @@ function Login() {
         </span>
 
         <br/>
-        <button  type="submit"  class="log-in1" disabled={isLoading}> Đăng nhập</button>
+        <button  type="submit"  class="log-in" disabled={isLoading}> Đăng nhập</button>
     </div>
     
         <Link  class="btn submits frgt-pass">Quên mật khẩu</Link>

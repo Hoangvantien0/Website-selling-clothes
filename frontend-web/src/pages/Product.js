@@ -72,7 +72,7 @@ function Product()
                 <input style={{width:"50%",marginLeft:"50%"}} type="search" class="form-control " placeholder="Search ..." onChange={(e) => setSearchTerm(e.target.value)} />
                 </Col>
                 <Col sm={2}>
-                <Filter>
+                {/* <Filter>
                 <FilterText>Sizes:</FilterText>
                 <Form.Select name="size" style={{width:"45%"}}  onChange={(e) => setSearchTerm(e.target.value)}>
                 <Option value="">Tất cả</Option>
@@ -80,7 +80,7 @@ function Product()
                 <Option>L</Option>
                 <Option>XL</Option>
                 </Form.Select>
-            </Filter>
+            </Filter> */}
                 </Col>
               </Row>
             </Container>

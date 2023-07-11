@@ -32,7 +32,7 @@ router.get("/:productId", async (req, res) => {
   }
 });
 //update rate  
-router.patch("/:id", async (req,res) => {
+router.patch("/update/:id", async (req,res) => {
   const {id } = req.params;;
   const Status = ["ChuaDuyet", "DaDuyet"];
   let status = "";
@@ -45,6 +45,14 @@ router.patch("/:id", async (req,res) => {
       }
     }
   await Rate.findByIdAndUpdate(id, {status});
+  //load lại rates
+  const rate = await Rate.find()
+  .populate('product'); 
+  res.status(200).json({
+    success: true,
+    message: "Order updated successfully",
+    data: rate,
+  });
   }catch (error) {
     console.log(error);
     res.status(400).json({

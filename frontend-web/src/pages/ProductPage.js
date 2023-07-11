@@ -69,13 +69,14 @@ function ProductPage() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [addToCart, { isSuccess }] = useAddToCartMutation();
     const [loading, setLoading] = useState(true);
+    const [selectedSize, setSelectedSize] = useState("");
 
 // rating
 const [currentPage, setCurrentPage] = useState(1);
 const itemsPerPage = 1;
 // số lượng sp
 const [quantity, setQuantity] = useState(1);
-  const maxQuantity = product.quality; 
+  const maxQuantity = product.quatity; 
 
   const decrementQuantity = () => {
     if (quantity > 1) {
@@ -120,6 +121,11 @@ const handleImageClick = (url) => {
     setSelectedImage(url);
     };
 //
+// const handleSizeChange = (event) => {
+//   setSelectedSize(event.target.value);
+// };
+//
+
     if (!product) {
         return <Loading />;
     }
@@ -187,9 +193,10 @@ return (
     {/*  */}
           </Col>
           <Col>
-            <Filter> <Price>{product.name} ( Còn {product.quality} sản phẩm)</Price></Filter>
+            <Filter> <Price>{product.name} ( Còn {product.quatity} sản phẩm)</Price></Filter>
             <Filter>  <Price>{product.price}₫</Price> </Filter>
-            <Filter>
+            
+            {/* <Filter>
             <FilterTitle>Kích thước</FilterTitle>
             <FilterSize>
               {product.size?.map((s) => (
@@ -199,7 +206,24 @@ return (
                 </FilterSizeOption>
               ))}
             </FilterSize>
-          </Filter>
+          </Filter> */}
+<Filter>
+<FilterTitle>Kích thước</FilterTitle>
+<FilterSize>
+  {product.size?.map((s) => (
+    <FilterSizeOption
+    key={s}
+    onClick={() => setSelectedSize(s)}
+    className={selectedSize === s ? "selected" : ""}
+  >
+    {s}
+  </FilterSizeOption>
+  
+  ))}
+</FilterSize>
+
+</Filter>
+          {/*  */}
           <Filter>
             <FilterTitle>Màu</FilterTitle>
             {product.color?.map((c) => (
@@ -231,7 +255,7 @@ return (
           {user && !user.isAdmin && (
             <ButtonGroup style={{ width: "100%"}} className=" ">
               
-              <button class="button_cart dark" onClick={() => addToCart({ userId: user._id, productId: id, price: product.price, image: product.pictures[0].url })} >
+              <button class="button_cart dark" onClick={() => addToCart({ userId: user._id, productId: id, price: product.price,size: selectedSize ,image: product.pictures[0].url })} >
                Thêm Vào Giỏ Hàng
               </button>
             </ButtonGroup>                          
